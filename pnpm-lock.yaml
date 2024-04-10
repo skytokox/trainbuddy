@@ -52,6 +52,9 @@ devDependencies:
   postcss:
     specifier: ^8.4.38
     version: 8.4.38
+  tailwindcss:
+    specifier: ^3.4.3
+    version: 3.4.3
 
 packages:
 

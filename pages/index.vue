@@ -41,35 +41,20 @@ async function getDepartures() {
         </div>
       <button @click="getDepartures">test</button>
     </div>
-<!--    <pre>-->
-<!--      {{departures}}-->
-<!--    </pre>-->
-    <div>
-<!--      <div v-for="destination in destinations">-->
-<!--        {{destination.display_name}}-->
-<!--        <ul>-->
-<!--          <li v-for="connection in destination.connections">-->
-<!--            Pociąg {{connection.train}} odjeżdza o godzinie {{`${connection.departure.hour}:${connection.departure.minute}`}}-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </div>-->
-      <UTabs v-if="destinations.length > 0" :items="destinations" class="w-1/2 mx-auto" :default-index="0" :key="forceRender">
-        <template #item="{ item }">
-          <UCard  orientation="vertical" :ui="{ wrapper: 'flex items-center gap-4', list: { width: 'w-48' } }">
-<!--            <template #header>-->
-<!--              <p>Połączenie: {{item.connection.id}}</p>-->
-<!--              <p>Ilość przesiadek: {{item.connection.train_ids.length - 1}}</p>-->
-<!--              <p>Ilość przystanków: {{item.connection.stops.length}}</p>-->
-<!--            </template>-->
-<!--            <div>-->
-<!--              <TrainStop :connection="item.connection"/>-->
-<!--            </div>-->
-            <div>
-              {{item}}
+    <div class="w-3/4 mx-auto">
+        <div class="flex flex-row w-full flex-wrap gap-2 justify-center">
+          <UButton v-for="destination in destinations" color="white" class="p-1 border-2 border-blue">{{destination.label}}</UButton>
+        </div>
+        <div class="flex flex-col w-full mx-auto">
+          <div v-for="destination in destinations">
+            <p>Kierunek: {{destination.label}}</p>
+            <div class="flex flex-row w-full flex-wrap gap-2 justify-center">
+              <div class="p-1 border-2 border-blue" v-for="connection in destination.connections">
+                {{connection.departure.hour}}:{{connection.departure.minute}}
+              </div>
             </div>
-          </UCard>
-        </template>
-      </UTabs>
+          </div>
+        </div>
     </div>
   </div>
 </template>
