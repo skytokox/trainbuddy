@@ -4,7 +4,7 @@ import { resolve } from 'pathe';
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
-  modules: ['@nuxt/ui'],
+  modules: ['@nuxt/ui', '@nuxtjs/tailwindcss'],
   colorMode: {
     preference: 'light'
   }

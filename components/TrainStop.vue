@@ -1,12 +1,12 @@
 <script setup>
   const props = defineProps({
-    connections: Array
+    connections: Array,
+    connection: Object,
   })
-  console.log(props.item)
 </script>
 
 <template>
-  <div v-for="connection in connections">
+  <div v-if="connections" v-for="connection in connections">
     <div>Linia {{connection.id}}</div>
     <div>
       <h3>Przystanki</h3>
@@ -18,6 +18,21 @@
           <span v-if="connection.end_date.minutes === stop.arrival.minute"><b>KONIEC</b></span>
           <span v-else-if="stop.arrival.minute === stop.departure.minute && stop.status !== 'first'">Przesiadka</span>
           <span v-else>Godzina odjazdu: {{stop.departure.hour}}:{{stop.departure.minute < 10 ? "0" + stop.departure.minute : stop.departure.minute}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div v-else>
+    <div>
+      <h3>Przystanki</h3>
+      <ul>
+        <li v-for="stop in connection.stops">
+          <span>{{stop.station_name}}</span> -
+          <span v-if="stop.status === 'first'"><b>START</b> - </span>
+          <span v-else>Godzina przyjazdu: {{stop.arrival.hour}}:{{stop.arrival.minute < 10 ? "0" + stop.arrival.minute : stop.arrival.minute}} - </span>
+          <span v-if="parseInt(connection.end_date.minutes) === stop.arrival.minute"><b>KONIEC</b></span>
+          <span v-else-if="stop.arrival.minute === stop.departure.minute && stop.status !== 'first'">Przesiadka</span>
+          <span v-else>Godzina odjazdu: {{stop.departure.hour}}:{{parseInt(stop.departure.minute) < 10 ? "0" + stop.departure.minute : stop.departure.minute}}</span>
         </li>
       </ul>
     </div>

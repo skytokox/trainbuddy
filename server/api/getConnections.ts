@@ -11,13 +11,13 @@ export default defineEventHandler(async (event) => {
             train_ids: Array<number>,
             start_date: {
                 'full': string,
-                'hour': number,
-                'minute': number,
+                'hour': string,
+                'minute': string,
             },
             finish_date: {
                 'full': string,
-                'hour': number,
-                'minute': number,
+                'hour': string,
+                'minute': string,
             }
         }>
         "trains": Array<object>,
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
         }>,
     }
     async function getData(): Promise<koleoData> {
-        const dateNow = moment()
+        const dateNow = moment().add(30, 'minutes')
         const date = dateNow.format("DD-MM-YYYY HH:mm:00")
         console.log(date)
         return $fetch(
@@ -89,13 +89,17 @@ export default defineEventHandler(async (event) => {
                 "train_ids": connection.train_ids,
                 "start_date": {
                     'full': connection.start_date,
-                    'hour': moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').hours(),
-                    'minutes': moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').minutes(),
+                    'hour': moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').hours().toString(),
+                    'minutes': moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').minutes() < 10
+                        ? '0' + moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').minutes().toString()
+                        : moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').minutes().toString()
                 },
                 "end_date": {
                     'full': connection.finish_date,
-                    'hour': moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').hours(),
-                    'minutes': moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').minutes(),
+                    'hour': moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').hours().toString(),
+                    'minutes': moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').minutes() < 10
+                        ? '0' + moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').minutes().toString()
+                        : moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').minutes().toString()
                 },
                 "stops": stops.filter((stop) => connection.train_ids.includes(stop.train_id))
             }

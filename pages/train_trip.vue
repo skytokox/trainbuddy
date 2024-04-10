@@ -1,36 +1,44 @@
 <script setup lang="ts">
 const loading = ref(false)
-const selected = ref()
-
 const originStation = ref()
 const destinationStation = ref()
 const connections = ref({})
 const items = ref([])
+const directConnections = ref(false)
+const forceRender = ref(0)
 
 async function search (q: string) {
   if(q.length == 0) {
     q = 'Warszawa'
   }
   loading.value = true
-  console.log(q)
   const data: { stations: []} = await $fetch('/api/getStations', { params: { originStation: q } })
   loading.value = false
   return data.stations
+}
+
+function reverseStations() {
+  const temp = originStation.value
+  originStation.value = destinationStation.value
+  destinationStation.value = temp
+  console.log(destinationStation.value, originStation.value)
 }
 
 async function getConnections() {
   if(originStation.value != null && destinationStation.value != null) {
     const { data } = await useFetch(`/api/getConnections?originStation=${originStation.value.name}&destinationStation=${destinationStation.value.name}`)
     connections.value = data
-    let temp: { label: string; }[] = []
+    let temp: {}[] = []
     data.value.forEach((connection) => {
       temp.push(
           {
-            'label': `${connection.start_date.hour}-${connection.end_date.hour}`
+            label: `${connection.start_date.hour}:${connection.start_date.minutes}-${connection.end_date.hour}:${connection.end_date.minutes}`,
+            connection: connection
           }
       )
     })
     items.value = temp
+    forceRender.value += 1
   }
 }
 
@@ -40,11 +48,11 @@ async function getConnections() {
 <template>
   <div class="mx-auto w-1/2 text-center min-h-full min-w-full">
     <div class="py-8">
-      <p class="text-5xl text-black">Welcome</p>
-      <p class="text-black">Search your train station</p>
+      <p class="text-5xl text-black">Zaplanuj trasę</p>
+      <p class="text-black py-2">Proszę wpisać stacje początkową i stacje docelową</p>
     </div>
-    <div class="mx-auto min-h-12 max-w-screen-sm flex flex-col">
-      <div class="">
+    <div class="mx-auto min-h-12 max-w-screen-sm flex flex-col gap-4">
+      <div class="flex flex-row w-full">
         <UInputMenu
             v-model="originStation"
             :search="search"
@@ -53,33 +61,43 @@ async function getConnections() {
             option-attribute="name"
             trailing
             by="id"
+            class="ml-auto"
+        />
+        <UButton tabindex="-1" @click="reverseStations" color="gray" variant="solid" icon="i-heroicons-arrows-right-left"></UButton>
+        <UInputMenu
+            v-model="destinationStation"
+            :search="search"
+            :loading="loading"
+            placeholder="Search for a station"
+            option-attribute="name"
+            trailing
+            by="id"
+            class="mr-auto"
         />
       </div>
-      <div class="">
-        <UInputMenu
-              v-model="destinationStation"
-              :search="search"
-              :loading="loading"
-              placeholder="Search for a station"
-              option-attribute="name"
-              trailing
-              by="id"
-          />
+      <div class="w-full">
+        <UButton
+            icon="i-heroicons-magnifying-glass"
+            size="sm"
+            color="gray"
+            variant="solid"
+            label="Sprawdź połączenia"
+            :trailing="true"
+            @click="getConnections"
+        />
       </div>
-      <button @click="getConnections">Sprawdź</button>
-      <div v-if="connections.value != null">
-<!--        <TrainStop :connections="connections.value" />-->
-<!--        <pre>{{connections}}</pre>-->
-      </div>
-<!--      <div class="w-full bg-amber-300 min-h-12 flex items-center gap-2">-->
-<!--        <div>10-12</div>-->
-<!--        <div>12-14</div>-->
-<!--        <div>14-16</div>-->
-<!--      </div>-->
-      <UTabs :items="connections.value" class="w-full">
-        <template #default="{ item, index, selected }">
-          {{console.log(item)}}git
-          <p>{{`${item.start_date.hour}:${item.end_date.minutes}-${item.end_date.hour}:${item.end_date.minutes}`}}</p>
+      <UTabs v-if="items.length > 0" :items="items" class="w-full" :default-index="0" :key="forceRender">
+        <template #item="{ item }">
+          <UCard>
+            <template #header>
+              <p>Połączenie: {{item.connection.id}}</p>
+              <p>Ilość przesiadek: {{item.connection.train_ids.length - 1}}</p>
+              <p>Ilość przystanków: {{item.connection.stops.length}}</p>
+            </template>
+            <div>
+              <TrainStop :connection="item.connection"/>
+            </div>
+          </UCard>
         </template>
       </UTabs>
     </div>
