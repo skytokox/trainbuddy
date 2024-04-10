@@ -6,5 +6,6 @@ export default {
   theme: {
   },
   plugins: [],
+  darkMode: 'class'
 }
 

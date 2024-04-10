@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>
+  <div class="dark:bg-gray-900 min-h-screen">
     <Header/>
     <slot />
   </div>

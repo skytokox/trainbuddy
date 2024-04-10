@@ -46,10 +46,10 @@ async function getConnections() {
 </script>
 
 <template>
-  <div class="mx-auto w-1/2 text-center min-h-full min-w-full">
+  <div class="mx-auto w-1/2 text-center min-w-full">
     <div class="py-8">
-      <p class="text-5xl text-black">Zaplanuj trasę</p>
-      <p class="text-black py-2">Proszę wpisać stacje początkową i stacje docelową</p>
+      <p class="text-5xl dark:text-gray-200">Zaplanuj trasę</p>
+      <p class="dark:text-gray-200 py-2">Proszę wpisać stacje początkową i stacje docelową</p>
     </div>
     <div class="mx-auto min-h-12 max-w-screen-sm flex flex-col gap-4">
       <div class="flex flex-row w-full">

@@ -61,6 +61,8 @@ li::after {
   top: 2px;
   width: 12px;
   height: 12px;
+  @apply
+  dark:bg-[url('data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3C!--%20License%3A%20MIT.%20Made%20by%20Financial%20Times%3A%20https%3A%2F%2Fgithub.com%2FFinancial-Times%2Ffticons%20--%3E%3Csvg%20width%3D%2240px%22%20height%3D%2240px%22%20viewBox%3D%220%200%201024%201024%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ctitle%3Ecircle%3C%2Ftitle%3E%3Ccircle%20cx%3D%22512%22%20cy%3D%22512%22%20r%3D%22256%22%20fill%3D%22%23FFFFFF%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E')]
 }
 li:first-child::after, li:last-child::after {
   content: '';
@@ -69,20 +71,24 @@ li:first-child::after, li:last-child::after {
   left: -2px;
   top: 0;
   background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%226%22%2F%3E%3Cpath%20d%3D%22M16%2030a14%2014%200%201%201%2014-14%2014.016%2014.016%200%200%201-14%2014m0-26a12%2012%200%201%200%2012%2012A12.014%2012.014%200%200%200%2016%204%22%2F%3E%3Cpath%20data-name%3D%22%26lt%3BTransparent%20Rectangle%26gt%3B%22%20style%3D%22fill%3Anone%22%20d%3D%22M0%200h32v32H0z%22%2F%3E%3C%2Fsvg%3E");
-}
-li {
+  @apply
+    dark:bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2216%22%20r%3D%226%22%20style%3D%22fill%3Awhite%22%2F%3E%3Cpath%20style%3D%22fill%3Awhite%22%20d%3D%22M16%2030a14%2014%200%201%201%2014-14%2014.016%2014.016%200%200%201-14%2014m0-26a12%2012%200%201%200%2012%2012A12.014%2012.014%200%200%200%2016%204%22%2F%3E%3Cpath%20data-name%3D%22%26lt%3BTransparent%20Rectangle%26gt%3B%22%20style%3D%22fill%3Anone%22%20d%3D%22M0%200h32v32H0z%22%2F%3E%3C%2Fsvg%3E')]
+  }
+  li {
   position: relative;
   margin: 0;
   padding-bottom: 1em;
   padding-left: 20px;
 }
 li:before {
-  background-color: #000;
   width: 2px;
   content: '';
   position: absolute;
   top: 0;
   bottom: 0;
   left: 5px;
+  @apply
+  bg-black
+  dark:bg-white
 }
 </style>

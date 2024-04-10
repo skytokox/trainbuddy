@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white">
+  <header class="">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
         <a href="#" class="-m-1.5 p-1.5">
@@ -14,13 +14,14 @@
         </button>
       </div>
       <PopoverGroup class="hidden lg:flex lg:gap-x-12">
-        <RouterLink to="/" class="text-sm font-semibold leading-6 text-gray-900">Main Page</RouterLink>
-        <RouterLink to="/train_trip" class="text-sm font-semibold leading-6 text-gray-900">Search Trip</RouterLink>
-        <RouterLink to="/busroutes" class="text-sm font-semibold leading-6 text-gray-900">Bus Routes</RouterLink>
-        <RouterLink to="/index2" class="text-sm font-semibold leading-6 text-gray-900">Search Bus Stop</RouterLink>
+        <RouterLink to="/" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">Main Page</RouterLink>
+        <RouterLink to="/train_trip" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">Search Trip</RouterLink>
+        <RouterLink to="/busroutes" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">Bus Routes</RouterLink>
+        <RouterLink to="/index2" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">Search Bus Stop</RouterLink>
       </PopoverGroup>
+      <ColorSwitch />
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-200">Log in <span aria-hidden="true">&rarr;</span></a>
       </div>
     </nav>
     <Dialog as="div" class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
@@ -78,6 +79,8 @@ import {
 } from '@heroicons/vue/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/vue/20/solid'
 import {RouterLink} from "vue-router";
+import Switch from "~/components/ColorSwitch.vue";
+import ColorSwitch from "~/components/ColorSwitch.vue";
 const mobileMenuOpen = ref(false)
 
 </script>

@@ -84,22 +84,20 @@ export default defineEventHandler(async (event) => {
         const stops = result.stops
         const temp: any[] | PromiseLike<any[]> = []
         connections.forEach((connection) => {
+            const start_date = moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD')
+            const end_date = moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD')
             const connectionData = {
                 "id": connection.id,
                 "train_ids": connection.train_ids,
                 "start_date": {
                     'full': connection.start_date,
-                    'hour': moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').hours().toString(),
-                    'minutes': moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').minutes() < 10
-                        ? '0' + moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').minutes().toString()
-                        : moment(connection.start_date, 'hh:mm:ss YYYY-MM-DD').minutes().toString()
+                    'hour': start_date.hours() < 10 ? '0' + start_date.hours().toString() : start_date.hours().toString(),
+                    'minutes': start_date.minutes() < 10 ? '0' + start_date.minutes().toString() : start_date.minutes().toString(),
                 },
                 "end_date": {
                     'full': connection.finish_date,
-                    'hour': moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').hours().toString(),
-                    'minutes': moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').minutes() < 10
-                        ? '0' + moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').minutes().toString()
-                        : moment(connection.finish_date, 'hh:mm:ss YYYY-MM-DD').minutes().toString()
+                    'hour': end_date.hours() < 10 ? '0' + end_date.hours().toString() : end_date.hours().toString(),
+                    'minutes': end_date.minutes() < 10 ? '0' + end_date.minutes().toString() : end_date.minutes().toString(),
                 },
                 "stops": stops.filter((stop) => connection.train_ids.includes(stop.train_id))
             }
