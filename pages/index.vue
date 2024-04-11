@@ -57,21 +57,21 @@ function scrollInto(id: string) {
     <div class="w-3/4 mx-auto mt-4">
         <div class="flex flex-row w-full flex-wrap gap-2 justify-center">
           <UButton v-for="destination in destinations"
-                   color="white" class="p-1 border-2 border-blue-200 text-sm"
+                   color="white" class="p-1 border-2 border-blue-200 text-sm dark:border-blue-800"
                    @click="scrollInto(destination.slug_name)">
             {{destination.label}}
           </UButton>
         </div>
         <div class="flex flex-col w-full mx-auto my-4 gap-2 " >
-          <div class="border-2 border-gray-200 p-2" v-for="destination in destinations">
+          <div class="border-2 border-gray-200 rounded-lg p-2 dark:border-gray-700" v-for="destination in destinations">
             <div class="invisible absolute -mt-64" v-bind:id="destination.slug_name"></div>
             <p class="text-left">Kierunek: {{destination.label}}</p>
             <div class="flex flex-row w-full flex-wrap gap-2 justify-start my-2">
               <div  v-for="connection in destination.connections">
-                <div v-if="dateNow < Date.parse(connection.departure.full)" class="border-2 border-green-300 p-1 text-sm">
+                <div v-if="dateNow < Date.parse(connection.departure.full)" class="border-2 border-green-300 p-1 text-sm dark:border-green-800">
                   {{connection.departure.hour}}:{{connection.departure.minute}}
                 </div>
-                <div v-else class="border-2 border-red-300 p-1 text-sm">
+                <div v-else class="border-2 border-red-300 p-1 text-sm dark:border-red-800">
                   {{connection.departure.hour}}:{{connection.departure.minute}}
                 </div>
               </div>
