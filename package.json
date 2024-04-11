@@ -24,6 +24,8 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
     "@types/lodash.debounce": "^4.0.9",
+    "@vueuse/core": "^10.9.0",
+    "@vueuse/nuxt": "^10.9.0",
     "autoprefixer": "^10.4.19",
     "pathe": "^1.1.2",
     "postcss": "^8.4.38",

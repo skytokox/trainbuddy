@@ -20,7 +20,7 @@ export default defineEventHandler((event) => {
     const query = getQuery(event)
     const stationId = query.stationId
     const usefulData =  $fetch(
-        `https://koleo.pl/api/v2/main/timetables/${stationId}/2024-04-10/departures`,
+        `https://koleo.pl/api/v2/main/timetables/${stationId}/2024-04-11/departures`,
         {
             "headers": {
                 "accept": "application/json, text/javascript, */*; q=0.01",

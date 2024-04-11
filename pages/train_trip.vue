@@ -6,6 +6,7 @@ const connections = ref({})
 const items = ref([])
 const directConnections = ref(false)
 const forceRender = ref(0)
+const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 
 async function search (q: string) {
   if(q.length == 0) {
@@ -46,7 +47,7 @@ async function getConnections() {
 </script>
 
 <template>
-  <div class="mx-auto w-1/2 text-center min-w-full">
+  <div class="mx-auto text-center min-w-full">
     <div class="py-8">
       <p class="text-5xl dark:text-gray-200">Zaplanuj trasę</p>
       <p class="dark:text-gray-200 py-2">Proszę wpisać stacje początkową i stacje docelową</p>
@@ -86,20 +87,40 @@ async function getConnections() {
             @click="getConnections"
         />
       </div>
-      <UTabs v-if="items.length > 0" :items="items" class="w-full" :default-index="0" :key="forceRender">
-        <template #item="{ item }">
-          <UCard>
-            <template #header>
-              <p>Połączenie: {{item.connection.id}}</p>
-              <p>Ilość przesiadek: {{item.connection.train_ids.length - 1}}</p>
-              <p>Ilość przystanków: {{item.connection.stops.length}}</p>
-            </template>
-            <div>
-              <TrainStop :connection="item.connection"/>
-            </div>
-          </UCard>
-        </template>
-      </UTabs>
+      <div v-if="isLargeScreen">
+        <UTabs v-if="items.length > 0" :items="items" class="w-full" :default-index="0" :key="forceRender">
+          <template #item="{ item }">
+            <UCard>
+              <template #header>
+                <p>Połączenie: {{item.connection.id}}</p>
+                <p>Ilość przesiadek: {{item.connection.train_ids.length - 1}}</p>
+                <p>Ilość przystanków: {{item.connection.stops.length}}</p>
+              </template>
+              <div>
+                <TrainStop :connection="item.connection"/>
+              </div>
+            </UCard>
+          </template>
+        </UTabs>
+      </div>
+      <div v-else>
+        <UTabs v-if="items.length > 0" :items="items" class="w-full mb-12" :default-index="0" :key="forceRender"
+        orientation="vertical"
+        >
+          <template #item="{ item }">
+            <UCard>
+              <template #header>
+                <p>Połączenie: {{item.connection.id}}</p>
+                <p>Ilość przesiadek: {{item.connection.train_ids.length - 1}}</p>
+                <p>Ilość przystanków: {{item.connection.stops.length}}</p>
+              </template>
+              <div>
+                <TrainStop :connection="item.connection"/>
+              </div>
+            </UCard>
+          </template>
+        </UTabs>
+      </div>
     </div>
   </div>
 </template>
