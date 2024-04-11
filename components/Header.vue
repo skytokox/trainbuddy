@@ -25,7 +25,7 @@
     </nav>
     <Dialog as="div" class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
       <div class="fixed inset-0 z-10" />
-      <DialogPanel class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+      <DialogPanel class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white dark:bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between">
           <a href="#" class="-m-1.5 p-1.5">
             <span class="sr-only">TrainBuddy</span>
@@ -39,12 +39,13 @@
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <RouterLink @click="mobileMenuOpen = false" to="/" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Search station</RouterLink>
-              <RouterLink @click="mobileMenuOpen = false" to="/train_trip" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Search trip</RouterLink>
-              <RouterLink @click="mobileMenuOpen = false" to="/my_account" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">My account</RouterLink>
+              <RouterLink @click="mobileMenuOpen = false" to="/" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:text-gray-200 text-gray-900 hover:bg-gray-50">Search station</RouterLink>
+              <RouterLink @click="mobileMenuOpen = false" to="/train_trip" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:text-gray-200 text-gray-900 hover:bg-gray-50">Search trip</RouterLink>
+              <RouterLink @click="mobileMenuOpen = false" to="/my_account" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:text-gray-200 text-gray-900 hover:bg-gray-50">My account</RouterLink>
             </div>
             <div class="py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 dark:text-gray-200 text-gray-900 hover:bg-gray-50">Log in</a>
+              <ColorSwitch />
             </div>
           </div>
         </div>
