@@ -80,7 +80,7 @@ async function getConnections() {
             </template>
           </UPopover>
         </div>
-        <div v-else class="mx-auto my-2 w-auto lg:mx-0 flex flex-row gap-1">
+        <div v-else class="mx-auto my-2 w-auto flex flex-row gap-1">
           <UButton tabindex="-1" @click="reverseStations" color="gray"
                    variant="solid" icon="i-heroicons-arrows-up-down" />
           <UPopover :popper="{ placement: 'bottom-start' }" >

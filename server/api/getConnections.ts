@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
     const query = getQuery(event)
     const originStation = query.originStation.toString().toLowerCase()
     const destinationStation = query.destinationStation.toString().toLowerCase()
-    const user_date = query.user_date
+    const user_date = moment(query.user_date)
     interface koleoData {
         "days": Array<object>,
         "connections": Array<{
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
     }
     async function getData(): Promise<koleoData> {
         const dateNow = moment().add(30, 'minutes')
-        const date = user_date ? moment(user_date).format("DD-MM-YYYY HH:mm:00") : dateNow.format("DD-MM-YYYY HH:mm:00")
+        const date = user_date ? user_date.add(30, 'minutes').format("DD-MM-YYYY HH:mm:00") : dateNow.format("DD-MM-YYYY HH:mm:00")
         console.log(date)
         return $fetch(
             "https://koleo.pl/pl/connections",
