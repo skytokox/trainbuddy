@@ -18,6 +18,7 @@ async function getDepartures() {
   destinations.value = await $fetch(`/api/getDepartures?stationId=${selected.value.id}`)
   forceRender.value += 1
   dateNow.value = Date.now()
+  console.log(destinations.value)
 }
 
 function scrollInto(id: string) {
@@ -43,6 +44,7 @@ function scrollInto(id: string) {
               trailing
               by="id"
               class="w-1/2"
+              @submit="getDepartures"
           />
       <UButton
           icon="i-heroicons-magnifying-glass"
@@ -68,12 +70,17 @@ function scrollInto(id: string) {
             <p class="text-left">Kierunek: {{destination.label}}</p>
             <div class="flex flex-row w-full flex-wrap gap-2 justify-start my-2">
               <div  v-for="connection in destination.connections">
+                <UTooltip>
+                  <template #text>
+                    {{connection.train_brand.display_name}} {{connection.train}}
+                  </template>
                 <div v-if="dateNow < Date.parse(connection.departure.full)" class="border-2 rounded-md border-green-300 p-1 text-sm dark:border-green-800">
                   {{connection.departure.hour}}:{{connection.departure.minute}}
                 </div>
                 <div v-else class="border-2 rounded-md border-red-300 p-1 text-sm dark:border-red-800">
                   {{connection.departure.hour}}:{{connection.departure.minute}}
                 </div>
+                </UTooltip>
               </div>
             </div>
           </div>

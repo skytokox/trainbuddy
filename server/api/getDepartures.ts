@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
     interface connection {
         "arrival": string,
         "departure": string,
@@ -17,10 +17,21 @@ export default defineEventHandler((event) => {
         "platform": string,
         "track": string
     }
+
     const query = getQuery(event)
     const stationId = query.stationId
-    const usefulData =  $fetch(
-        `https://koleo.pl/api/v2/main/timetables/${stationId}/2024-04-11/departures`,
+    const date = moment().format("YYYY-MM-DD")
+    const brands = await $fetch("https://koleo.pl/api/v2/main/brands",
+        {
+            "headers": {
+                "accept": "application/json, text/javascript, */*; q=0.01",
+                "x-requested-with": "XMLHttpRequest",
+                "x-koleo-version": "2",
+            },
+        }
+    )
+    const usefulData = $fetch(
+        `https://koleo.pl/api/v2/main/timetables/${stationId}/${date}/departures`,
         {
             "headers": {
                 "accept": "application/json, text/javascript, */*; q=0.01",
@@ -31,9 +42,10 @@ export default defineEventHandler((event) => {
     ).then((response) => {
         const destinations: Array<{
             slug_name: string,
-            label: string
+            label: string,
             connections: Array<{
                 train: string,
+                train_brand: string,
                 departure: {
                     full: string,
                     hour: string,
@@ -43,10 +55,11 @@ export default defineEventHandler((event) => {
         }> = []
         response.forEach((connection: connection) => {
             const date = moment(connection.departure, 'YYYY-MM-DDTHH:mm:ss.SSS')
-            if(destinations.find((obj) => obj.slug_name === connection.stations[0].slug)) {
+            if (destinations.find((obj) => obj.slug_name === connection.stations[0].slug)) {
                 destinations[destinations.findIndex((obj) => obj.slug_name === connection.stations[0].slug)].connections.push(
                     {
                         train: connection.train_full_name,
+                        train_brand: brands.find((brand) => brand.id === connection.brand_id),
                         departure: {
                             full: connection.departure,
                             hour: date.hours().toString(),
@@ -56,7 +69,7 @@ export default defineEventHandler((event) => {
                         }
                     }
                 )
-            }else {
+            } else {
                 destinations.push(
                     {
                         slug_name: connection.stations[0].slug,
@@ -64,6 +77,7 @@ export default defineEventHandler((event) => {
                         connections: [
                             {
                                 train: connection.train_full_name,
+                                train_brand: brands.find((brand) => brand.id === connection.brand_id),
                                 departure: {
                                     full: connection.departure,
                                     hour: date.hours().toString(),

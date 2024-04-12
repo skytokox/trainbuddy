@@ -15,7 +15,7 @@
           <span>{{stop.station_name}}</span> -
           <span v-if="stop.status === 'first'"><b>START</b> - </span>
           <span v-else>Godzina przyjazdu: {{stop.arrival.hour}}:{{stop.arrival.minute < 10 ? "0" + stop.arrival.minute : stop.arrival.minute}} - </span>
-          <span v-if="connection.end_date.minutes === stop.arrival.minute"><b>KONIEC</b></span>
+          <span v-if="(connection.end_date.minutes === stop.arrival.minute) && (connection.end_date.hour === stop.arrival.hour)"><b>KONIEC</b></span>
           <span v-else-if="stop.arrival.minute === stop.departure.minute && stop.status !== 'first'">Przesiadka</span>
           <span v-else>Godzina odjazdu: {{stop.departure.hour}}:{{stop.departure.minute < 10 ? "0" + stop.departure.minute : stop.departure.minute}}</span>
         </li>
@@ -30,7 +30,7 @@
           <span>{{stop.station_name}}</span> -
           <span v-if="stop.status === 'first'"><b>START</b> - </span>
           <span v-else>Godzina przyjazdu: {{stop.arrival.hour}}:{{stop.arrival.minute < 10 ? "0" + stop.arrival.minute : stop.arrival.minute}} - </span>
-          <span v-if="parseInt(connection.end_date.minutes) === stop.arrival.minute"><b>KONIEC</b></span>
+          <span v-if="(parseInt(connection.end_date.minutes) === stop.arrival.minute) && ((parseInt(connection.end_date.hour) === stop.arrival.hour))"><b>KONIEC</b></span>
           <span v-else-if="stop.arrival.minute === stop.departure.minute && stop.status !== 'first'">Przesiadka</span>
           <span v-else>Godzina odjazdu: {{stop.departure.hour}}:{{parseInt(stop.departure.minute) < 10 ? "0" + stop.departure.minute : stop.departure.minute}}</span>
         </li>

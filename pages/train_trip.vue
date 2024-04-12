@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const loading = ref(false)
+const loadingConnections = ref(false)
 const originStation = ref()
 const destinationStation = ref()
 const connections = ref({})
@@ -27,6 +28,7 @@ function reverseStations() {
 
 async function getConnections() {
   if(originStation.value != null && destinationStation.value != null) {
+    loadingConnections.value = true
     const { data } = await useFetch(`/api/getConnections?originStation=${originStation.value.name}&destinationStation=${destinationStation.value.name}`)
     connections.value = data
     let temp: {}[] = []
@@ -38,6 +40,7 @@ async function getConnections() {
           }
       )
     })
+    loadingConnections.value = false
     items.value = temp
     forceRender.value += 1
   }
@@ -53,7 +56,7 @@ async function getConnections() {
       <p class="dark:text-gray-200 py-2">Proszę wpisać stacje początkową i stacje docelową</p>
     </div>
     <div class="mx-auto min-h-12 max-w-screen-sm flex flex-col gap-4">
-      <div class="flex flex-row w-full">
+      <div class="flex lg:flex-row flex-col w-full gap-1">
         <UInputMenu
             v-model="originStation"
             :search="search"
@@ -62,9 +65,12 @@ async function getConnections() {
             option-attribute="name"
             trailing
             by="id"
-            class="ml-auto"
+            class="lg:ml-auto mx-auto"
         />
-        <UButton tabindex="-1" @click="reverseStations" color="gray" variant="solid" icon="i-heroicons-arrows-right-left"></UButton>
+        <UButton tabindex="-1" @click="reverseStations" color="gray"
+                 variant="solid" v-if="isLargeScreen" icon="i-heroicons-arrows-right-left" class="mx-auto w-auto lg:mx-0"></UButton>
+        <UButton tabindex="-1" @click="reverseStations" color="gray"
+                 variant="solid" v-else icon="i-heroicons-arrows-up-down" class="mx-auto w-auto lg:mx-0"></UButton>
         <UInputMenu
             v-model="destinationStation"
             :search="search"
@@ -73,7 +79,7 @@ async function getConnections() {
             option-attribute="name"
             trailing
             by="id"
-            class="mr-auto"
+            class="lg:mr-auto mx-auto"
         />
       </div>
       <div class="w-full">
@@ -87,6 +93,10 @@ async function getConnections() {
             @click="getConnections"
         />
       </div>
+      <div v-if="loadingConnections">
+        <UProgress animation="swing" />
+      </div>
+      <div v-else>
       <div v-if="isLargeScreen">
         <UTabs v-if="items.length > 0" :items="items" class="w-full" :default-index="0" :key="forceRender">
           <template #item="{ item }">
@@ -120,6 +130,7 @@ async function getConnections() {
             </UCard>
           </template>
         </UTabs>
+      </div>
       </div>
     </div>
   </div>
