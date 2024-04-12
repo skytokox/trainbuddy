@@ -84,7 +84,7 @@ async function getConnections() {
         <div v-else class="mx-auto my-2 w-auto flex flex-row gap-1">
           <UButton tabindex="-1" @click="reverseStations" color="gray"
                    variant="solid" icon="i-heroicons-arrows-up-down" />
-          <UPopover :popper="{ placement: 'bottom-start' }" v-model="calendarOpen" >
+          <UPopover v-if="isLargeScreen" :popper="{ placement: 'bottom-start' }" v-model="calendarOpen" >
             <UButton icon="i-heroicons-calendar-days-20-solid" @click="calendarOpen = true" :label="format(date, 'd MMM, yyy')" />
 
             <template #panel="{ close }">
