@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
 const date = ref(new Date())
-const calendarOpen = ref(false)
 const loading = ref(false)
 const loadingConnections = ref(false)
 const originStation = ref()
@@ -84,8 +83,8 @@ async function getConnections() {
         <div v-else class="mx-auto my-2 w-auto flex flex-row gap-1">
           <UButton tabindex="-1" @click="reverseStations" color="gray"
                    variant="solid" icon="i-heroicons-arrows-up-down" />
-          <UPopover v-if="isLargeScreen" :popper="{ placement: 'bottom-start' }" v-model="calendarOpen" >
-            <UButton icon="i-heroicons-calendar-days-20-solid" @click="calendarOpen = true" :label="format(date, 'd MMM, yyy')" />
+          <UPopover :popper="{ placement: 'bottom-start' }" >
+            <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
 
             <template #panel="{ close }">
               <DatePicker v-model="date" is-required @close="close" />
