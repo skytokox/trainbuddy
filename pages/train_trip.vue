@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { format } from 'date-fns'
+const date = ref(new Date())
 const loading = ref(false)
 const loadingConnections = ref(false)
 const originStation = ref()
@@ -8,7 +10,6 @@ const items = ref([])
 const directConnections = ref(false)
 const forceRender = ref(0)
 const isLargeScreen = useMediaQuery('(min-width: 1024px)')
-
 async function search (q: string) {
   if(q.length == 0) {
     q = 'Warszawa'
@@ -56,7 +57,7 @@ async function getConnections() {
       <p class="dark:text-gray-200 py-2">Proszę wpisać stacje początkową i stacje docelową</p>
     </div>
     <div class="mx-auto min-h-12 max-w-screen-sm flex flex-col gap-4">
-      <div class="flex lg:flex-row flex-col w-full gap-1">
+      <div class="flex lg:flex-row flex-col w-full">
         <UInputMenu
             v-model="originStation"
             :search="search"
@@ -67,10 +68,28 @@ async function getConnections() {
             by="id"
             class="lg:ml-auto mx-auto"
         />
-        <UButton tabindex="-1" @click="reverseStations" color="gray"
-                 variant="solid" v-if="isLargeScreen" icon="i-heroicons-arrows-right-left" class="mx-auto w-auto lg:mx-0"></UButton>
-        <UButton tabindex="-1" @click="reverseStations" color="gray"
-                 variant="solid" v-else icon="i-heroicons-arrows-up-down" class="mx-auto w-auto lg:mx-0"></UButton>
+        <div v-if="isLargeScreen" class="mx-auto w-auto lg:mx-0 flex flex-row gap-1">
+          <UButton tabindex="-1" @click="reverseStations" color="gray"
+                   variant="solid" icon="i-heroicons-arrows-right-left" />
+          <UPopover :popper="{ placement: 'bottom-start' }" >
+            <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
+
+            <template #panel="{ close }">
+              <DatePicker v-model="date" is-required @close="close" />
+            </template>
+          </UPopover>
+        </div>
+        <div v-else class="mx-auto my-2 w-auto lg:mx-0 flex flex-row gap-1">
+          <UButton tabindex="-1" @click="reverseStations" color="gray"
+                   variant="solid" icon="i-heroicons-arrows-up-down" />
+          <UPopover :popper="{ placement: 'bottom-start' }" >
+            <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
+
+            <template #panel="{ close }">
+              <DatePicker v-model="date" is-required @close="close" />
+            </template>
+          </UPopover>
+        </div>
         <UInputMenu
             v-model="destinationStation"
             :search="search"
@@ -93,12 +112,12 @@ async function getConnections() {
             @click="getConnections"
         />
       </div>
-      <div v-if="loadingConnections">
+      <div v-if="loadingConnections" class="w-1/2 mx-auto lg:w-full">
         <UProgress animation="swing" />
       </div>
       <div v-else>
       <div v-if="isLargeScreen">
-        <UTabs v-if="items.length > 0" :items="items" class="w-full" :default-index="0" :key="forceRender">
+        <UTabs v-if="items.length > 0" :items="items" class="w-3/4 lg:w-full" :default-index="0" :key="forceRender">
           <template #item="{ item }">
             <UCard>
               <template #header>
