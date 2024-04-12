@@ -30,7 +30,8 @@ function reverseStations() {
 async function getConnections() {
   if(originStation.value != null && destinationStation.value != null) {
     loadingConnections.value = true
-    const { data } = await useFetch(`/api/getConnections?originStation=${originStation.value.name}&destinationStation=${destinationStation.value.name}`)
+    const { data } = await useFetch(`/api/getConnections?originStation=${originStation.value.name}
+    &destinationStation=${destinationStation.value.name}&user_date=${new Date(date.value).toISOString()}`)
     connections.value = data
     let temp: {}[] = []
     data.value.forEach((connection) => {

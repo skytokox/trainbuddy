@@ -27,11 +27,14 @@ const attrs = {
   'is-dark': { selector: 'html', darkClass: 'dark' },
   'first-day-of-week': 2,
 }
+const rules = ref({
+  days: {min: new Date().getDay()}
+})
 </script>
 
 <template>
-  <VCalendarDatePicker v-if="date && (typeof date === 'object')" v-model.range="date" :columns="1" v-bind="{ ...attrs, ...$attrs }" />
-  <VCalendarDatePicker v-else v-model="date" v-bind="{ ...attrs, ...$attrs }" />
+<!--  <VCalendarDatePicker v-if="date && (typeof date === 'object')" v-model.range="date" :columns="1" v-bind="{ ...attrs, ...$attrs }" />-->
+  <VCalendarDatePicker :min-date="new Date()" mode="dateTime" is24hr v-model="date" v-bind="{ ...attrs, ...$attrs }" />
 </template>
 
 <style>
